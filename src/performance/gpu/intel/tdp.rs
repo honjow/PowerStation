@@ -1,5 +1,6 @@
 use std::fs::{self, OpenOptions};
 use std::io::Write;
+use std::path::Path;
 
 use crate::performance::gpu::{
     platform::hardware::Hardware,
@@ -34,6 +35,11 @@ impl Tdp {
             //path
         }
     }
+    
+    // Check if boost feature is supported on this platform
+    fn is_boost_supported(&self) -> bool {
+        Path::new("/sys/class/powercap/intel-rapl/intel-rapl:0/constraint_2_power_limit_uw").exists()
+    }
 }
 
 impl TDPDevice for Tdp {
@@ -62,27 +68,33 @@ impl TDPDevice for Tdp {
             return Err(TDPError::InvalidArgument(String::from(err)));
         }
 
-        // Get the current boost value so the peak tdp can be set *boost*
-        // distance away.
-        let boost = self.boost().await?;
-
-        // Open the sysfs file to write to
+        // Write the base TDP value
         let path = "/sys/class/powercap/intel-rapl/intel-rapl:0/constraint_0_power_limit_uw";
         let file = OpenOptions::new().write(true).open(path);
-
-        // Convert the value to a writable string
-        let value = format!("{}", value * 1000000.0);
-
-        // Write the value
+        let value_str = format!("{}", value * 1000000.0);
         file.map_err(|err| TDPError::FailedOperation(err.to_string()))?
-            .write_all(value.as_bytes())
+            .write_all(value_str.as_bytes())
             .map_err(|err| TDPError::IOError(err.to_string()))?;
 
-        // Update the boost value
-        self.set_boost(boost).await
+        // If boost is supported, update the boost value
+        if self.is_boost_supported() {
+            match self.boost().await {
+                Ok(boost) => self.set_boost(boost).await?,
+                Err(TDPError::FeatureUnsupported) => (),
+                Err(e) => return Err(e),
+            }
+        }
+
+        Ok(())
     }
 
     async fn boost(&self) -> TDPResult<f64> {
+        // Check if boost feature is supported
+        if !self.is_boost_supported() {
+            log::info!("Boost feature is not supported on this platform");
+            return Err(TDPError::FeatureUnsupported);
+        }
+        
         let path = "/sys/class/powercap/intel-rapl/intel-rapl:0/constraint_2_power_limit_uw";
         let result = fs::read_to_string(path);
         let content = result.map_err(|err| TDPError::IOError(err.to_string()))?;
@@ -102,6 +114,12 @@ impl TDPDevice for Tdp {
     }
 
     async fn set_boost(&mut self, value: f64) -> TDPResult<()> {
+        // Check if boost feature is supported
+        if !self.is_boost_supported() {
+            log::info!("Boost feature is not supported on this platform");
+            return Err(TDPError::FeatureUnsupported);
+        }
+        
         if value < 0.0 {
             let err = "Cowardly refusing to set TDP Boost less than 0";
             log::warn!("{}", err);
