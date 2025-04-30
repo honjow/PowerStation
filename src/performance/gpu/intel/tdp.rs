@@ -38,7 +38,7 @@ impl Tdp {
     
     // Check if boost feature is supported on this platform
     fn is_boost_supported(&self) -> bool {
-        Path::new("/sys/class/powercap/intel-rapl/intel-rapl:0/constraint_2_power_limit_uw").exists()
+        Path::new("/sys/class/powercap/intel-rapl/intel-rapl:0/constraint_1_power_limit_uw").exists()
     }
 }
 
@@ -95,7 +95,7 @@ impl TDPDevice for Tdp {
             return Err(TDPError::FeatureUnsupported);
         }
         
-        let path = "/sys/class/powercap/intel-rapl/intel-rapl:0/constraint_2_power_limit_uw";
+        let path = "/sys/class/powercap/intel-rapl/intel-rapl:0/constraint_1_power_limit_uw";
         let result = fs::read_to_string(path);
         let content = result.map_err(|err| TDPError::IOError(err.to_string()))?;
         let content = content.trim();
@@ -129,7 +129,7 @@ impl TDPDevice for Tdp {
         let tdp = self.tdp().await?;
         let boost = value;
         let short_tdp = if boost > 0.0 {
-            ((boost / 2.0) + tdp) * 1000000.0
+            (boost + tdp) * 1000000.0
         } else {
             tdp * 1000000.0
         };
@@ -138,14 +138,6 @@ impl TDPDevice for Tdp {
         let path = "/sys/class/powercap/intel-rapl/intel-rapl:0/constraint_1_power_limit_uw";
         let file = OpenOptions::new().write(true).open(path);
         let value = format!("{}", short_tdp);
-        file.map_err(|err| TDPError::FailedOperation(err.to_string()))?
-            .write_all(value.as_bytes())
-            .map_err(|err| TDPError::IOError(err.to_string()))?;
-
-        // Write the peak tdp
-        let path = "/sys/class/powercap/intel-rapl/intel-rapl:0/constraint_2_power_limit_uw";
-        let file = OpenOptions::new().write(true).open(path);
-        let value = format!("{}", (boost + tdp) * 1000000.0);
         file.map_err(|err| TDPError::FailedOperation(err.to_string()))?
             .write_all(value.as_bytes())
             .map_err(|err| TDPError::IOError(err.to_string()))
