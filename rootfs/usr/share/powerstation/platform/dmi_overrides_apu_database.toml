@@ -100,3 +100,10 @@ model_name = "Claw A1M"
 min_tdp = 5.0
 max_tdp = 28.0
 max_boost = 5.0
+
+
+[[models]]
+model_name = "AOKZOE A1X"
+min_tdp = 4.0
+max_tdp = 30.0
+max_boost = 0.0
