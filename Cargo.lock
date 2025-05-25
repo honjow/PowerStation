@@ -868,8 +868,8 @@ dependencies = [
 
 [[package]]
 name = "libryzenadj"
-version = "0.15.0"
-source = "git+https://gitlab.com/shadowapex/libryzenadj-rs.git#f672540499dacc585c009149c7c5b036720c110e"
+version = "0.16.0"
+source = "git+https://gitlab.com/honjow/libryzenadj-rs.git#e2f2867ef82e6f66795f9bd3bf8263d277a46316"
 dependencies = [
  "errno",
  "libryzenadj-sys",
@@ -879,8 +879,8 @@ dependencies = [
 
 [[package]]
 name = "libryzenadj-sys"
-version = "0.15.0"
-source = "git+https://gitlab.com/shadowapex/libryzenadj-rs.git#f672540499dacc585c009149c7c5b036720c110e"
+version = "0.16.0"
+source = "git+https://gitlab.com/honjow/libryzenadj-rs.git#e2f2867ef82e6f66795f9bd3bf8263d277a46316"
 dependencies = [
  "bindgen",
  "cmake",
