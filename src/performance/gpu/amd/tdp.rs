@@ -109,7 +109,7 @@ impl TDPDevice for Tdp {
     }
 
     async fn set_tdp(&mut self, value: f64) -> TDPResult<()> {
-        log::info!("Set TDP");
+        log::info!("Set TDP to {value}");
         if self.asus_wmi.is_some() {
             let asus_wmi = self.asus_wmi.as_mut().unwrap();
             match asus_wmi.set_tdp(value).await {

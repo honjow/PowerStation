@@ -107,3 +107,9 @@ model_name = "AOKZOE A1X"
 min_tdp = 4.0
 max_tdp = 30.0
 max_boost = 0.0
+
+[[models]]
+model_name = "ONEXPLAYER G1 A"
+min_tdp = 4.0
+max_tdp = 35.0
+max_boost = 0.0

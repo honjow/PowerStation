@@ -32,7 +32,6 @@ pub trait TDPDevice: Sync + Send + HardwareAccess {
 
     // Default implementations for hardware-based methods
     async fn min_tdp(&self) -> TDPResult<f64> {
-        log::info!("Get TDP Min");
         if let Some(hardware) = self.hardware() {
             return Ok(hardware.min_tdp());
         }
@@ -42,7 +41,6 @@ pub trait TDPDevice: Sync + Send + HardwareAccess {
     }
 
     async fn max_tdp(&self) -> TDPResult<f64> {
-        log::info!("Get TDP Max");
         if let Some(hardware) = self.hardware() {
             return Ok(hardware.max_tdp());
         }
@@ -52,7 +50,6 @@ pub trait TDPDevice: Sync + Send + HardwareAccess {
     }
 
     async fn max_boost(&self) -> TDPResult<f64> {
-        log::info!("Get TDP Max Boost");
         if let Some(hardware) = self.hardware() {
             return Ok(hardware.max_boost());
         }
