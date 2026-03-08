@@ -118,3 +118,9 @@ model_name = "ONEXPLAYER G1 A"
 min_tdp = 4.0
 max_tdp = 35.0
 max_boost = 0.0
+
+[[models]]
+model_name = "ROG Flow Z13 GZ302EA_GZ302EA"
+min_tdp = 8.0
+max_tdp = 80.0
+max_boost = 6.0
