@@ -30,7 +30,7 @@ serde = { version = "1.0.219", features = ["derive"] }
 udev = { version = "0.9.3", features = ["send", "sync"] }
 
 [target.'cfg(target_arch = "x86_64")'.dependencies]
-libryzenadj = { git = "https://gitlab.com/shadowapex/libryzenadj-rs.git" }
+libryzenadj = { git = "https://gitlab.com/honjow/libryzenadj-rs.git" }
 
 [profile.release]
 debug = false
