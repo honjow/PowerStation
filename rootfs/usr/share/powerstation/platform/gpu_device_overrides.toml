@@ -4,11 +4,12 @@
 # Solution: Override classification by device ID to enable TDP interface
 #
 # Format: List of "vendor_id:device_id" strings  
-# Find device info: lspci -nn | grep VGA
+# Find device info: lspci -nn | grep -E 'VGA|3D|Display'
 
 [device_overrides]
 integrated_gpus = [
     # Current generation (Zen 4/5, RDNA 3)
+    "1002:1586",  # Strix Halo (Zen 5 + RDNA 3.5)
     "1002:150e",  # Strix Radeon 880M/890M (Zen 5 + RDNA 3.5)
     "1002:1900",  # Raphael APU (Zen 4, gfx1036)
     "1002:15bf",  # Phoenix APU (Zen 4 + RDNA 3, gfx1103)
