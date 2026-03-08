@@ -101,6 +101,11 @@ min_tdp = 5.0
 max_tdp = 28.0
 max_boost = 5.0
 
+[[models]]
+model_name = "Claw A8 BZ2EM"
+min_tdp = 5.0
+max_tdp = 35.0
+max_boost = 0.0
 
 [[models]]
 model_name = "AOKZOE A1X"
