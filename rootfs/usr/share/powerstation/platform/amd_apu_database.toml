@@ -573,3 +573,9 @@ model_name = "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S"
 min_tdp = 8.0
 max_tdp = 120.0
 max_boost = 0.0
+
+[[models]]
+model_name = "AMD RYZEN AI MAX 385 w/ Radeon 8050S"
+min_tdp = 8.0
+max_tdp = 120.0
+max_boost = 0.0
