@@ -1,0 +1,31 @@
+# GPU Device Classification Overrides
+# 
+# Problem: Some AMD APUs report PCI class 038000 (dedicated) but are actually integrated
+# Solution: Override classification by device ID to enable TDP interface
+#
+# Format: List of "vendor_id:device_id" strings  
+# Find device info: lspci -nn | grep VGA
+
+[device_overrides]
+integrated_gpus = [
+    # Current generation (Zen 4/5, RDNA 3)
+    "1002:150e",  # Strix Radeon 880M/890M (Zen 5 + RDNA 3.5)
+    "1002:1900",  # Raphael APU (Zen 4, gfx1036)
+    "1002:15bf",  # Phoenix APU (Zen 4 + RDNA 3, gfx1103)
+    "1002:15c8",  # Phoenix2 APU (Zen 4 + RDNA 3)
+    
+    # Zen 3/3+ generation (RDNA 2)
+    "1002:163f",  # Van Gogh (Steam Deck, Zen 2 + RDNA 2)
+    "1002:1681",  # Rembrandt/Yellow Carp (Zen 3+ + RDNA 2)
+    "1002:164c",  # Lucienne APU (Zen 2 + Vega, 7nm)
+    "1002:1638",  # Cezanne APU (Zen 3 + Vega, 7nm)
+    "1002:15e7",  # Barcelo APU (Zen 3 + Vega)
+    
+    # Zen 2 generation 
+    "1002:1636",  # Renoir APU (Zen 2 + Vega, 7nm)
+    "1002:1506",  # Mendocino APU (Zen 2 + RDNA 2, 6nm)
+    
+    # Zen/Zen+ generation (Vega)
+    "1002:15dd",  # Raven APU (Zen + Vega, 14nm)
+    "1002:15d8",  # Picasso/Raven2/Dali/Pollock (Zen+ + Vega)
+]

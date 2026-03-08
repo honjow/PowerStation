@@ -12,6 +12,7 @@ use crate::performance::gpu::amd::amdgpu::AmdGpu;
 use crate::performance::gpu::connector::Connector;
 use crate::performance::gpu::dbus::devices::GPUDevices;
 use crate::performance::gpu::dbus::tdp::GPUTDPDBusIface;
+use crate::performance::gpu::device_override::is_integrated_gpu;
 use crate::performance::gpu::intel::intelgpu::IntelGPU;
 use crate::performance::gpu::intel::monitor::{IntelMonitorGPU, MonitorStrategy};
 use crate::performance::gpu::interface::GPUError;
@@ -316,10 +317,16 @@ pub async fn get_gpu(path: String) -> Result<GPUDBusInterface, std::io::Error> {
     let hw_ids_file = File::open(get_pci_ids_path())?;
     let reader = BufReader::new(hw_ids_file);
 
-    // Set the class based on class ID
+    // Set the class based on class ID with device overrides for problematic cases
     let class = match class_id.as_str() {
         "030000" => "integrated",
-        "038000" => "dedicated",
+        "038000" => {
+            if is_integrated_gpu(&vendor_id, &device_id) {
+                "integrated"
+            } else {
+                "dedicated"
+            }
+        }
         _ => "unknown",
     };
 
