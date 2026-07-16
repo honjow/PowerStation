@@ -642,13 +642,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc2f4eb4bc735547cfed7c0a4922cbd04a4655978c09b54f1f7b228750664c34"
 dependencies = [
  "cfg-if",
- "windows-targets 0.52.6",
+ "windows-targets 0.48.5",
 ]
 
 [[package]]
 name = "libryzenadj"
-version = "0.18.0"
-source = "git+https://gitlab.com/honjow/libryzenadj-rs.git#8944ba9128cf86c8235d7e8dea37320ba8766562"
+version = "0.19.0"
+source = "git+https://gitlab.com/honjow/libryzenadj-rs.git#c2690017935279dec24296dc972b5847bbe47920"
 dependencies = [
  "errno",
  "libryzenadj-sys",
@@ -658,8 +658,8 @@ dependencies = [
 
 [[package]]
 name = "libryzenadj-sys"
-version = "0.18.0"
-source = "git+https://gitlab.com/honjow/libryzenadj-rs.git#8944ba9128cf86c8235d7e8dea37320ba8766562"
+version = "0.19.0"
+source = "git+https://gitlab.com/honjow/libryzenadj-rs.git#c2690017935279dec24296dc972b5847bbe47920"
 dependencies = [
  "bindgen",
  "cmake",
