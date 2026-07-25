@@ -114,6 +114,12 @@ max_tdp = 35.0
 max_boost = 0.0
 
 [[models]]
+model_name = "Claw 8 EX AI+ CG3EM Launch Pack"
+min_tdp = 5.0
+max_tdp = 35.0
+max_boost = 10.0
+
+[[models]]
 model_name = "AOKZOE A1X"
 min_tdp = 4.0
 max_tdp = 30.0
